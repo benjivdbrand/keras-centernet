@@ -23,7 +23,7 @@ camera_matrix = np.array(
 
 def main():
   parser = argparse.ArgumentParser()
-  parser.add_argument('--fn', default='train_images/ID_679502721.jpg', type=str)
+  parser.add_argument('--fn', default='train_images/ID_001a12fb2.jpg', type=str)
   parser.add_argument('--output', default='output', type=str)
   parser.add_argument('--inres', default='512,512', type=str)
   args, _ = parser.parse_known_args()
@@ -86,13 +86,15 @@ def main():
       y_center = (y2-y1)/2+y1
       car_index = 0
       faulty = True
+      dist_x = math.inf
+      dist_y = math.inf
       for car in range(len(train_matrix[0])):
-        if(abs(train_matrix[7][car_index]-x_center) < 10000 / train_matrix[6][car_index] and abs(train_matrix[8][car_index]-y_center) < 10000 / train_matrix[6][car_index]):
+        if abs(train_matrix[7][car]-x_center) < 10000 / train_matrix[6][car] and abs(train_matrix[8][car]-y_center) < 10000 / train_matrix[6][car]:
           faulty = False
-          break;  
-
-        car_index += 1
-
+          if abs(train_matrix[7][car]-x_center) < dist_x and abs(train_matrix[8][car]-y_center) < dist_y:
+            dist_x = abs(train_matrix[7][car]-x_center)
+            dist_y = abs(train_matrix[8][car]-y_center)
+            car_index = car
       if(faulty):
         continue
 
@@ -118,8 +120,13 @@ def main():
         f.write('0\n1')
 
       f.write('\n\n')
-      f.write(str(train_matrix[7][car_index]) + '\n')
-      f.write(str(train_matrix[8][car_index]))
+      f.write(str(train_matrix[0][car_index]) + '\n')
+      f.write(str(train_matrix[1][car_index]) + '\n')
+      f.write(str(train_matrix[2][car_index]) + '\n')
+      f.write(str(train_matrix[3][car_index]) + '\n')
+      f.write(str(train_matrix[4][car_index]) + '\n')
+      f.write(str(train_matrix[5][car_index]) + '\n')
+      f.write(str(train_matrix[6][car_index]) + '\n')
       
       i+= 1
 
@@ -160,7 +167,6 @@ if __name__ == '__main__':
   #for car in range(len(train_matrix[0])):
   #  x_img[car] = get_img_coords(train_matrix[4][car], train_matrix[5][car], train_matrix[6][car])[0]
   #  y_img[car] = get_img_coords(train_matrix[4][car], train_matrix[5][car], train_matrix[6][car])[1]
-  
   #train_matrix = np.append(train_matrix, [x_img], axis=0)
   #train_matrix = np.append(train_matrix, [y_img], axis=0)
   #print(train_matrix)
