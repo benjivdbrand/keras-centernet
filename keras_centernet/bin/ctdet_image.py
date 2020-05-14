@@ -14,6 +14,8 @@ from keras_centernet.models.decode import CtDetDecode
 from keras_centernet.utils.utils import COCODrawer
 from keras_centernet.utils.letterbox import LetterboxTransformer
 
+coco_names = ['person', 'bicycle', 'car', 'motorbike', 'aeroplane', 'bus', 'train', 'truck', 'boat', 'traffic light', 'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball', 'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket', 'bottle', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'sofa', 'pottedplant', 'bed', 'diningtable', 'toilet', 'tvmonitor', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush',]  # noqa
+
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('--fn', default='train_images/ID_0a1eb2c76.jpg', type=str)
@@ -59,8 +61,8 @@ def main():
         break
       
       cl = int(cl)
-      name = self.coco_names[cl].split()[-1]
-      if name != 'Car':
+      name = coco_names[cl].split()[-1]
+      if name != 'car':
         continue
        
       x1, y1, x2, y2 = letterbox_transformer.correct_box(x1, y1, x2, y2)
